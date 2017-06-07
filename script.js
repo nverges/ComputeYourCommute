@@ -86,8 +86,8 @@ $(document).ready(function() {
 	function matrixCallBack(result, status) {
 		if (status == 'OK') {
 			console.log(result);
-			travelDistance = result.rows[0].elements[0].distance.text;
-			travelTime = result.rows[0].elements[0].duration.text;
+			travelDistance = parseInt(result.rows[0].elements[0].distance.text);
+			travelTime = parseInt(result.rows[0].elements[0].duration.text); // can use duration.value for seconds
 			console.log('distance: ' + travelDistance);
 			console.log('time: ' + travelTime);
 
@@ -143,23 +143,52 @@ $(document).ready(function() {
 	}
 
 	function cardDisplay() {
-		for (let i = 0; i < 4; i++) {
-			let cardDiv = $('<div class="card hoverable center-align col s3">');
-			let time = ["Daily", "Weekly", "Monthly", "Yearly"];
-			let timeDiv = $('<div class="card-content">');
-			let p = $('<p>').text(time[i]);
-			// Append p onto ratingDiv
-			timeDiv.append(p);
 
-			// Create div's for image and set attributes
-			let imageDiv = $('<div class="card-image">');
-			let image = $('<img>');
+		let time = [{	
+			timeFrame: 'Daily', 
+			travelTime: `Travel time: ${travelTime*2}`, 
+			travelDistance: `Travel Distance: ${travelDistance*2}`, 
+			cost: 'Cost: $$$$'
+		}, {
+			timeFrame: 'Weekly',
+			travelTime: `Travel time: ${travelTime*10}`,
+			travelDistance: `Travel Distance: ${travelDistance*10}`,
+			cost: 'Cost: $$$$'
+		}, {
+			timeFrame: 'Monthly',
+			travelTime: `Travel time: ${travelTime*44}`,
+			travelDistance: `Travel Distance: ${travelDistance*44}`,
+			cost: 'Cost: $$$$'
+		}, {
+			timeFrame: 'Yearly',
+			travelTime: `Travel time: ${travelTime*532}`,
+			travelDistance: `Travel Distance: ${travelDistance*532}`,
+			cost: 'Cost: $$$$'
+		}];
+
+		for (let i = 0; i < 4; i++) {
+			let timeobj = time[i];
+			let cardDiv = $('<div class="card hoverable center-align col s3">');
+			let timeDiv = $('<div class="card-content">');
+			timeDiv.append(`<p>${timeobj.timeFrame}`);
+
 
 			let infoDiv = $('<div class="commuteInfo">');
 			infoDiv.attr("id", "infoCard-" + (i+1));
-			infoDiv.append(`<p>Travel time: ${travelTime}`);
+			infoDiv.append(`<p>${timeobj.travelTime}`);
+			infoDiv.append(`<p>${timeobj.travelDistance}`);
+			infoDiv.append(`<p>${timeobj.cost}`);
 
+			// for (let x = 1; x < 4; x++) {
+			//   infoDiv.append(`<p>${time[i][x]}`);
+			// }
 
+			// time.forEach(function(element) {
+			// 	let p = $('<p>').text(time[i][element]);
+			// 	// Append p onto ratingDiv
+			// 	timeDiv.append(p);
+			// });
+	
 			// Append timeDiv onto 'cardDiv'
 			cardDiv.append(timeDiv);
 			// Append infoDiv onto 'cardDiv'
