@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-	// Access Google Places library
-	const service = new google.maps.places.PlacesService(document.createElement('div'));
 	// Access Google Distance Matrix service
 	const distanceService = new google.maps.DistanceMatrixService();
 	// Access Geocoding service
@@ -75,16 +73,13 @@ $(document).ready(function() {
 
 		// Distance Matrix request object
 		let matrixRequest = {
-			origins: [homeAdress],
-			destinations: [workAddress],
+			origins: ['talking stick arena, phoenix, az'],//[homeAdress],
+			destinations:['125 e commonwealth, chandler, az'], //[]workAddress],
 			travelMode: 'DRIVING',
 			unitSystem: google.maps.UnitSystem.IMPERIAL
 		}
 
 		distanceService.getDistanceMatrix(matrixRequest, matrixCallBack);
-
-		cardDisplay();
-
 	});
 
 	// Distance Matrix callback function
@@ -95,6 +90,8 @@ $(document).ready(function() {
 			travelTime = result.rows[0].elements[0].duration.text;
 			console.log('distance: ' + travelDistance);
 			console.log('time: ' + travelTime);
+
+			cardDisplay();
 
 		} else {
 			alert('Matrix request unsuccessful: ' + status);
@@ -131,7 +128,7 @@ $(document).ready(function() {
 	function calculateRoute() {
 
 	  let request = {
-	    origin: "92 e vaughn ave, gilbert, az",
+	    origin: "talking stick arena, phoenix, az",
 	    destination: "125 e commonwealth ave, chandler, az",
 	    travelMode: 'DRIVING'
 	  };
@@ -145,75 +142,9 @@ $(document).ready(function() {
 	  });
 	}
 
-	getDetails();
-
-	// Get gas station prices
-	function getDetails() {
-		let address = '555 S Galleria Way, Chandler, AZ';
-
-		/********* STEP #1 **********/
-		// Get geolocation for address
-		geocoder.geocode({address: address}, geoCallBack);
-	}
-	
-	// Callback function for geocoding request
-	function geoCallBack(results, status) {
-		if (status == 'OK') {
-			homeLatLng = results[0].geometry.location;
-			console.log('homeLatLng: ' + homeLatLng);
-
-			// request object used to search for gas stations within a 2000 meter radius
-			let searchRequest = {
-				location: homeLatLng,
-				radius: '500',
-				type: 'gas_station'
-			};
-			console.log(searchRequest);
-
-			// Do a Places nearby search using searchRequest info and callback function
-			service.nearbySearch(searchRequest, searchCallBack);
-
-		} else {
-			alert('Geocode was not successful for the following reason: ' + status);
-		}
-	}
-
-	// Callback function for nearby search request
-	function searchCallBack(results, status) {
-		if (status == google.maps.places.PlacesServiceStatus.OK) {
-			console.log(results);
-
-			// Get place ID from results
-			let placeID = results[0].place_id;
-			console.log(placeID);
-
-			// Create place details request object
-			let detailsRequest = {
-				placeId: placeID
-			};
-
-			// Get Gas station details and jump to callback function
-			service.getDetails(detailsRequest, detailsCallBack);
-
-		} else {
-			alert('Something went wrong: ' + status);
-		}
-	}
-
-	// Callback function for places details request
-	function detailsCallBack(details, status) {
-		if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-			console.log(details);
-
-		} else {
-			alert('Could not get details: ' + status);
-		}
-	}
-
 	function cardDisplay() {
 		for (let i = 0; i < 4; i++) {
-			let cardDiv = $('<div class="card hoverable col s3">');
+			let cardDiv = $('<div class="card hoverable center-align col s3">');
 			let time = ["Daily", "Weekly", "Monthly", "Yearly"];
 			let timeDiv = $('<div class="card-content">');
 			let p = $('<p>').text(time[i]);
@@ -226,21 +157,18 @@ $(document).ready(function() {
 
 			let infoDiv = $('<div class="commuteInfo">');
 			infoDiv.attr("id", "infoCard-" + (i+1));
-			
+			infoDiv.append(`<p>Travel time: ${travelTime}`);
 
-			
 
-			// Append imageDiv onto 'cardDiv'
-			cardDiv.append(imageDiv);
-			// Append rating onto 'cardDiv'
+			// Append timeDiv onto 'cardDiv'
 			cardDiv.append(timeDiv);
-			// ...then append 'cardDiv' onto div with id of 'searches'
+			// Append infoDiv onto 'cardDiv'
+			cardDiv.append(infoDiv);
+
+			// ...then append 'cardDiv' onto div with id of 'results'
 			$('#results').append(cardDiv);
 		};
 	}
-
-
-
 });
 
 
