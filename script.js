@@ -18,7 +18,7 @@ $(document).ready(function() {
 	let travelTime;
 
 	const mpgAverage = 24.8; // Average MPG as of November 2016
-	const gasPriceAvg = 2.364; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
+	const gasPriceAvg = 2.36; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
 
 	// Display current average gas price
 	$("#gasPriceDisplay").html(`$${gasPriceAvg}`);
@@ -102,17 +102,84 @@ $(document).ready(function() {
 		if (status == 'OK') {
 			console.log(result);
 			travelDistance = parseFloat(result.rows[0].elements[0].distance.text);
-			travelTime = parseInt(result.rows[0].elements[0].duration.text); // can use duration.value for seconds
+			travelTime = parseInt(result.rows[0].elements[0].duration.value); // returns travel time in seconds
 			console.log('distance: ' + travelDistance);
 			console.log('time: ' + travelTime);
 
-			// calculate 
+			// calculate commute time
+			let dailyCommuteTime = computeTime(travelTime*2);	// 2 trips a day 
+			let weeklyCommuteTime = computeTime(travelTime*10);	// 10 trips a week
+			let monthlyCommuteTime = computeTime(travelTime*44);// 44 trips a month
+			let yearlyCommuteTime = computeTime(travelTime*528);// 528 trips a year
 
-			cardDisplay();
+			// Display cards with commute info
+			cardDisplay(dailyCommuteTime, weeklyCommuteTime, monthlyCommuteTime, yearlyCommuteTime);
 
 		} else {
 			alert('Matrix request unsuccessful: ' + status);
 		}
+	}
+
+	// Converts seconds into days, hours and minutes
+	function computeTime(seconds) {
+
+		// A day contains 60 * 60 * 24 = 86400 seconds
+		const secondsDay = 86400;
+		// An hour contains 60 * 60 = 3600 seconds
+		const secondsHour = 3600;
+		// A minute contains 60 seconds
+		const secondsMin = 60;
+
+		let remaining = seconds;
+
+		// Calculate the number of days
+		const days = Math.floor(remaining/secondsDay);
+		// Seconds remaining
+		remaining = remaining % secondsDay;
+
+		// Calculate hours
+		const hours = Math.floor(remaining/secondsHour);
+		remaining = remaining % secondsHour;
+
+		// Calculate minutes
+		const minutes = Math.floor(remaining/secondsMin);
+		remaining = remaining % secondsMin;
+
+		// If commute is shorter than a day...
+		if (days === 0) {
+			// ... and shorter than an hour
+			if (hours === 0) {
+				// return just minutes
+				return `${minutes} mins`; 
+			}
+			// ... at least an hour with no minutes
+			if (minutes === 0) {
+				// return just hours
+				return `${hours} hours`;
+			}
+			// return hours and minutes
+			return `${hours} hours ${minutes} mins`;
+		}
+
+		// If commute is at least a day with no hours...
+		if (hours === 0) {
+			// ... and no minutes either
+			if (minutes === 0) {
+				// return just day(s)
+				return `${days} days`;
+			}
+			// return day(s) and minutes
+			return `${days} days ${minutes} mins`;
+		}
+
+		// If commute is at least a day and an hour but no minutes
+		if (minutes === 0) {
+			// return day(s) and hour(s)
+			return `${days} days ${hours} hours`;
+		}
+
+		// If commute time day(s), hour(s), and minutes
+		return `${days} days ${hours} hours ${minutes} mins`;
 	}
 
 
@@ -134,30 +201,30 @@ $(document).ready(function() {
 		});
 	}
 
-
-	// Dislays seperate cards for each time frame with corresponding commute info
-	function cardDisplay() {
+	// Takes commute time arguments for each time frame and displays seperate 
+	// cards for each time frame with corresponding commute info
+	function cardDisplay(dailyTime, weeklyTime, monthlyTime, yearlyTime) {
 
 		// commute array holding an object for each commute time frame(daily, weekly, monthly, yearly)
 		let commute = [{	
 			timeFrame: 'Daily', 
-			travelTime: `Travel time: ${travelTime*2}`, 
-			travelDistance: `Travel Distance: ${travelDistance*2} miles`, 
+			commuteTime: `Time: ${dailyTime}`, 
+			commuteDistance: `Distance: ${travelDistance*2} miles`, 
 			cost: 'Cost: $$$$'
 		}, {
 			timeFrame: 'Weekly',
-			travelTime: `Travel time: ${travelTime*10}`,
-			travelDistance: `Travel Distance: ${travelDistance*10} miles`,
+			commuteTime: `Time: ${weeklyTime}`,
+			commuteDistance: `Distance: ${travelDistance*10} miles`,
 			cost: 'Cost: $$$$'
 		}, {
 			timeFrame: 'Monthly',
-			travelTime: `Travel time: ${travelTime*44}`,
-			travelDistance: `Travel Distance: ${travelDistance*44} miles`,
+			commuteTime: `Time: ${monthlyTime}`,
+			commuteDistance: `Distance: ${travelDistance*44} miles`,
 			cost: 'Cost: $$$$'
 		}, {
 			timeFrame: 'Yearly',
-			travelTime: `Travel time: ${travelTime*532}`,
-			travelDistance: `Travel Distance: ${travelDistance*532} miles`,
+			commuteTime: `Time: ${yearlyTime}`,
+			commuteDistance: `Distance: ${travelDistance*532} miles`,
 			cost: 'Cost: $$$$'
 		}];
 
@@ -171,19 +238,10 @@ $(document).ready(function() {
 
 			let infoDiv = $('<div class="commuteInfo">');
 			infoDiv.attr('id', `cardInfo-${i+1}`);
-			infoDiv.append(`<p>${commuteObj.travelTime}`);
-			infoDiv.append(`<p>${commuteObj.travelDistance}`);
+			infoDiv.append(`<p>${commuteObj.commuteTime}`);
+			infoDiv.append(`<p>${commuteObj.commuteDistance}`);
 			infoDiv.append(`<p>${commuteObj.cost}`);
 
-			// for (let x = 1; x < 4; x++) {
-			//   infoDiv.append(`<p>${commute[i][x]}`);
-			// }
-
-			// commute.forEach(function(element) {
-			// 	let p = $('<p>').text(commute[i][element]);
-			// 	// Append p onto ratingDiv
-			// 	commuteDiv.append(p);
-			// });
 	
 			// Append commuteDiv onto 'cardDiv'
 			cardDiv.append(commuteDiv);
