@@ -30,7 +30,10 @@ $(document).ready(function() {
 	const gasPriceAvg = 2.36; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
 
 	// Display current average gas price
-	$("#gasPriceDisplay").html(`$${gasPriceAvg}`);
+	let gasPriceDisplay = $(`<h5 id="gasPrice">National Average Gas Price: $${gasPriceAvg}</h5>`);
+	let mpgDisplay = $(`<h5 id="mpgPrice">National Average MPG: ${mpgAverage}</h5>`)
+	$('.averages').append(gasPriceDisplay);
+	$('.averages').append(mpgDisplay);
 
 	//******************************************
 	//				MAP CREATION

@@ -52,9 +52,8 @@ table {
   text-align: center;
 }
 
-#gasPrice {
-  text-align: center;
-  margin-bottom: 24px;
+.averages {
+  margin-bottom: 35px;
 }
 
 #results {
