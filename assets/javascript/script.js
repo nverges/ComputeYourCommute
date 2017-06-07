@@ -17,6 +17,15 @@ $(document).ready(function() {
 	let travelDistance;
 	let travelTime;
 
+	let dailyCommuteTime;
+	let weeklyCommuteTime;
+	let monthlyCommuteTime;
+	let yearlyCommuteTime;
+	let dailyDistance;
+	let weeklyDistance;
+	let monthlyDistance;
+	let yearlyDistance;
+
 	const mpgAverage = 24.8; // Average MPG as of November 2016
 	const gasPriceAvg = 2.36; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
 
@@ -106,19 +115,38 @@ $(document).ready(function() {
 			console.log('distance: ' + travelDistance);
 			console.log('time: ' + travelTime);
 
-			// calculate commute time
-			let dailyCommuteTime = computeTime(travelTime*2);	// 2 trips a day 
-			let weeklyCommuteTime = computeTime(travelTime*10);	// 10 trips a week
-			let monthlyCommuteTime = computeTime(travelTime*44);// 44 trips a month
-			let yearlyCommuteTime = computeTime(travelTime*528);// 528 trips a year
+			// Calculate commute time
+			dailyCommuteTime = computeTime(travelTime*2);	// 2 trips a day 
+			weeklyCommuteTime = computeTime(travelTime*10);	// 10 trips a week
+			monthlyCommuteTime = computeTime(travelTime*44);// 44 trips a month
+			yearlyCommuteTime = computeTime(travelTime*528);// 528 trips a year
+
+			// Calculate commute distance
+			dailyDistance = travelDistance*2;
+			weeklyDistance = travelDistance*10;
+			monthlyDistance = travelDistance*44;
+			yearlyDistance = travelDistance*528;
 
 			// Display cards with commute info
-			cardDisplay(dailyCommuteTime, weeklyCommuteTime, monthlyCommuteTime, yearlyCommuteTime);
+			cardDisplay();
 
 		} else {
 			alert('Matrix request unsuccessful: ' + status);
 		}
 	}
+
+
+	// Takes in number of miles and miles per gallon as arguments to 
+	// calculate the total cost of a commute
+	function computeCost(miles, mpg) {
+
+		// Number of gallons of gas needed for commute (round up)
+		const gallons = Math.ceil(miles/mpg);
+
+		// return cost of commute rounded to 2 decimal places
+		return (gallons * gasPriceAvg).toFixed(2);
+	}
+
 
 	// Converts seconds into days, hours and minutes
 	function computeTime(seconds) {
@@ -201,31 +229,30 @@ $(document).ready(function() {
 		});
 	}
 
-	// Takes commute time arguments for each time frame and displays seperate 
-	// cards for each time frame with corresponding commute info
-	function cardDisplay(dailyTime, weeklyTime, monthlyTime, yearlyTime) {
+	// Displays seperate cards for each time frame with corresponding commute info
+	function cardDisplay() {
 
 		// commute array holding an object for each commute time frame(daily, weekly, monthly, yearly)
 		let commute = [{	
 			timeFrame: 'Daily', 
-			commuteTime: `Time: ${dailyTime}`, 
-			commuteDistance: `Distance: ${travelDistance*2} miles`, 
-			cost: 'Cost: $$$$'
+			commuteTime: `Time: ${dailyCommuteTime}`, 
+			commuteDistance: `Distance: ${dailyDistance} miles`, 
+			cost: `Cost: $${computeCost(dailyDistance, mpgAverage)}`
 		}, {
 			timeFrame: 'Weekly',
-			commuteTime: `Time: ${weeklyTime}`,
-			commuteDistance: `Distance: ${travelDistance*10} miles`,
-			cost: 'Cost: $$$$'
+			commuteTime: `Time: ${weeklyCommuteTime}`,
+			commuteDistance: `Distance: ${weeklyDistance} miles`,
+			cost: `Cost: $${computeCost(weeklyDistance, mpgAverage)}`
 		}, {
 			timeFrame: 'Monthly',
-			commuteTime: `Time: ${monthlyTime}`,
-			commuteDistance: `Distance: ${travelDistance*44} miles`,
-			cost: 'Cost: $$$$'
+			commuteTime: `Time: ${monthlyCommuteTime}`,
+			commuteDistance: `Distance: ${monthlyDistance} miles`,
+			cost: `Cost: $${computeCost(monthlyDistance, mpgAverage)}`
 		}, {
 			timeFrame: 'Yearly',
-			commuteTime: `Time: ${yearlyTime}`,
-			commuteDistance: `Distance: ${travelDistance*532} miles`,
-			cost: 'Cost: $$$$'
+			commuteTime: `Time: ${yearlyCommuteTime}`,
+			commuteDistance: `Distance: ${yearlyDistance} miles`,
+			cost: `Cost: $${computeCost(yearlyDistance, mpgAverage)}`
 		}];
 
 		for (let i = 0; i < commute.length; i++) {
