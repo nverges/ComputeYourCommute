@@ -29,10 +29,11 @@ $(document).ready(function() {
 
 	// Location where map will center its focus initially
 	const centerPoint = new google.maps.LatLng(33.4484, -112.0740);
+
 	// map options object
 	const mapOptions = {
-	  zoom: 12,
-	  center: centerPoint
+		zoom: 12,
+		center: centerPoint
 	};
 
 	// creates map and pushes directions to map
@@ -43,18 +44,18 @@ $(document).ready(function() {
 
 	// click events on buttons 
 	$("#hybrid").on("click", function() {
-	  hybridMileage = 45;
-	  console.log(hybridMileage);
+		hybridMileage = 45;
+		console.log(hybridMileage);
 	});
 
 	$("#sedan").on("click", function () {
-	  sedanMileage = 25;
-	  console.log(sedanMileage);
+		sedanMileage = 25;
+		console.log(sedanMileage);
 	});
 
 	$("#truck").on("click", function() {
-	  truckMileage = 15;
-	  console.log(truckMileage);
+		truckMileage = 15;
+		console.log(truckMileage);
 	});
 
 	//*********************************************
@@ -100,10 +101,12 @@ $(document).ready(function() {
 	function matrixCallBack(result, status) {
 		if (status == 'OK') {
 			console.log(result);
-			travelDistance = parseInt(result.rows[0].elements[0].distance.text);
+			travelDistance = parseFloat(result.rows[0].elements[0].distance.text);
 			travelTime = parseInt(result.rows[0].elements[0].duration.text); // can use duration.value for seconds
 			console.log('distance: ' + travelDistance);
 			console.log('time: ' + travelTime);
+
+			// calculate 
 
 			cardDisplay();
 
@@ -112,23 +115,25 @@ $(document).ready(function() {
 		}
 	}
 
+
 	// performs directions request and displays it on map
 	function calculateRoute() {
 
-	  let request = {
-	    origin: "talking stick arena, phoenix, az",
-	    destination: "125 e commonwealth ave, chandler, az",
-	    travelMode: 'DRIVING'
-	  };
+		let request = {
+		origin: "talking stick arena, phoenix, az",
+		destination: "125 e commonwealth ave, chandler, az",
+		travelMode: 'DRIVING'
+		};
 
-	  directionsService.route(request, function(result, status) {
+		directionsService.route(request, function(result, status) {
 
-	    console.log(result, status);
+		console.log(result, status);
 
-	  directionsDisplay.setDirections(result);
+		directionsDisplay.setDirections(result);
 
-	  });
+		});
 	}
+
 
 	// Dislays seperate cards for each time frame with corresponding commute info
 	function cardDisplay() {
@@ -137,22 +142,22 @@ $(document).ready(function() {
 		let commute = [{	
 			timeFrame: 'Daily', 
 			travelTime: `Travel time: ${travelTime*2}`, 
-			travelDistance: `Travel Distance: ${travelDistance*2}`, 
+			travelDistance: `Travel Distance: ${travelDistance*2} miles`, 
 			cost: 'Cost: $$$$'
 		}, {
 			timeFrame: 'Weekly',
 			travelTime: `Travel time: ${travelTime*10}`,
-			travelDistance: `Travel Distance: ${travelDistance*10}`,
+			travelDistance: `Travel Distance: ${travelDistance*10} miles`,
 			cost: 'Cost: $$$$'
 		}, {
 			timeFrame: 'Monthly',
 			travelTime: `Travel time: ${travelTime*44}`,
-			travelDistance: `Travel Distance: ${travelDistance*44}`,
+			travelDistance: `Travel Distance: ${travelDistance*44} miles`,
 			cost: 'Cost: $$$$'
 		}, {
 			timeFrame: 'Yearly',
 			travelTime: `Travel time: ${travelTime*532}`,
-			travelDistance: `Travel Distance: ${travelDistance*532}`,
+			travelDistance: `Travel Distance: ${travelDistance*532} miles`,
 			cost: 'Cost: $$$$'
 		}];
 
