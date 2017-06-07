@@ -2,10 +2,8 @@ $(document).ready(function() {
 
 	// Access Google Distance Matrix service
 	const distanceService = new google.maps.DistanceMatrixService();
-	// Access Geocoding service
-	const geocoder = new google.maps.Geocoder();
 
-	// creates variables for calls to services
+	// create variables for calls to services
 	const directionsService = new google.maps.DirectionsService();
 	const directionsDisplay = new google.maps.DirectionsRenderer();
 
@@ -19,11 +17,19 @@ $(document).ready(function() {
 	let travelDistance;
 	let travelTime;
 
-	$("#gasPriceDisplay").html("$$$$");
+	const mpgAverage = 24.8; // Average MPG as of November 2016
+	const gasPriceAvg = 2.364; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
 
-	// hard coded destinations
+	// Display current average gas price
+	$("#gasPriceDisplay").html(`$${gasPriceAvg}`);
+
+	//******************************************
+	//				MAP CREATION
+	//******************************************
+
+	// Location where map will center its focus initially
 	const centerPoint = new google.maps.LatLng(33.4484, -112.0740);
-
+	// map options object
 	const mapOptions = {
 	  zoom: 12,
 	  center: centerPoint
@@ -33,6 +39,7 @@ $(document).ready(function() {
 	const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
 	directionsDisplay.setMap(map);
 
+	//*************************************************************
 
 	// click events on buttons 
 	$("#hybrid").on("click", function() {
@@ -50,9 +57,9 @@ $(document).ready(function() {
 	  console.log(truckMileage);
 	});
 
-	//****************************
-	//	COMPUTE BUTTON CLICK 
-	//****************************
+	//*********************************************
+	//			COMPUTE BUTTON CLICK 
+	//*********************************************
 
 	$("#compute").on("click", function(event) {
 		event.preventDefault();
@@ -79,8 +86,15 @@ $(document).ready(function() {
 			unitSystem: google.maps.UnitSystem.IMPERIAL
 		}
 
+		// Distance Matrix request call. Gives us travel time and distance
 		distanceService.getDistanceMatrix(matrixRequest, matrixCallBack);
 	});
+	//************************************************************************
+
+
+	//*******************************************
+	//				FUNCTIONS
+	//*******************************************
 
 	// Distance Matrix callback function
 	function matrixCallBack(result, status) {
@@ -98,33 +112,7 @@ $(document).ready(function() {
 		}
 	}
 
-	// Call back function for home adrress geocode request
-	function homeGeoCallBack(result, status) {
-		if (status == 'OK') {
-			homeAddress = result[0].geometry.location;
-			console.log('homeAddress: ' + homeAddress);
-			console.log(homeAdress);
-
-			// Get geocode for work address
-			geocoder.geocode({address: workAddress}, workGeoCallBack);
-		} else {
-			alert('Home geocode was not successful for the following reason: ' + status);
-		}
-	}
-
-	function workGeoCallBack(result, status) {
-		if (status == 'OK') {
-			console.log('workAddress: ' + workAddress);
-			workAddress = result[0].geometry.location;
-			console.log('workAddress: ' + workAddress);
-
-			// calculateRoute();
-		} else {
-			alert(' Work geocode was not successful for the following reason: ' + status);
-		}
-	}
-
-	// performs directions request 
+	// performs directions request and displays it on map
 	function calculateRoute() {
 
 	  let request = {
@@ -142,9 +130,11 @@ $(document).ready(function() {
 	  });
 	}
 
+	// Dislays seperate cards for each time frame with corresponding commute info
 	function cardDisplay() {
 
-		let time = [{	
+		// commute array holding an object for each commute time frame(daily, weekly, monthly, yearly)
+		let commute = [{	
 			timeFrame: 'Daily', 
 			travelTime: `Travel time: ${travelTime*2}`, 
 			travelDistance: `Travel Distance: ${travelDistance*2}`, 
@@ -166,31 +156,32 @@ $(document).ready(function() {
 			cost: 'Cost: $$$$'
 		}];
 
-		for (let i = 0; i < 4; i++) {
-			let timeobj = time[i];
+		for (let i = 0; i < commute.length; i++) {
+			let commuteObj = commute[i];
 			let cardDiv = $('<div class="card hoverable center-align col s3">');
-			let timeDiv = $('<div class="card-content">');
-			timeDiv.append(`<p>${timeobj.timeFrame}`);
+			cardDiv.attr('id', `cardNum-${i+1}`);
+			let commuteDiv = $('<div class="card-content">');
+			commuteDiv.append(`<p>${commuteObj.timeFrame}`);
 
 
 			let infoDiv = $('<div class="commuteInfo">');
-			infoDiv.attr("id", "infoCard-" + (i+1));
-			infoDiv.append(`<p>${timeobj.travelTime}`);
-			infoDiv.append(`<p>${timeobj.travelDistance}`);
-			infoDiv.append(`<p>${timeobj.cost}`);
+			infoDiv.attr('id', `cardInfo-${i+1}`);
+			infoDiv.append(`<p>${commuteObj.travelTime}`);
+			infoDiv.append(`<p>${commuteObj.travelDistance}`);
+			infoDiv.append(`<p>${commuteObj.cost}`);
 
 			// for (let x = 1; x < 4; x++) {
-			//   infoDiv.append(`<p>${time[i][x]}`);
+			//   infoDiv.append(`<p>${commute[i][x]}`);
 			// }
 
-			// time.forEach(function(element) {
-			// 	let p = $('<p>').text(time[i][element]);
+			// commute.forEach(function(element) {
+			// 	let p = $('<p>').text(commute[i][element]);
 			// 	// Append p onto ratingDiv
-			// 	timeDiv.append(p);
+			// 	commuteDiv.append(p);
 			// });
 	
-			// Append timeDiv onto 'cardDiv'
-			cardDiv.append(timeDiv);
+			// Append commuteDiv onto 'cardDiv'
+			cardDiv.append(commuteDiv);
 			// Append infoDiv onto 'cardDiv'
 			cardDiv.append(infoDiv);
 
