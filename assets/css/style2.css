@@ -75,6 +75,6 @@ table {
   padding: 0;
 }
 
-#vehicle {
-  text-align: center;
+nav.brand-logo {
+  margin-left: 24px;
 }

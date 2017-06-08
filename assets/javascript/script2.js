@@ -26,49 +26,19 @@ $(document).ready(function() {
 	let monthlyDistance;
 	let yearlyDistance;
 
-	const mpgAverage = 24.8; // Average MPG as of November 2016
+	let vehicleYear;
+	let vehicleMake;
+	let vehicleModel;
+
+	// const mpgAverage = 24.8; // Average MPG as of November 2016
 	const gasPriceAvg = 2.36; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
 
 	// Display current average gas price
 	let gasPriceDisplay = $(`<h5 id="gasPrice">National Average Gas Price: $${gasPriceAvg}</h5>`);
-	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle gets: ${mpgAverage} MPG</h5>`)
+	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle gets: <span id="mpgVal"> </span> MPG</h5>`)
 	$('.averages').append(gasPriceDisplay);
 	$('.averages').append(mpgDisplay);
 
-	//******************************************
-	//				MAP CREATION
-	//******************************************
-
-	// Location where map will center its focus initially
-	const centerPoint = new google.maps.LatLng(33.4484, -112.0740);
-
-	// map options object
-	const mapOptions = {
-		zoom: 12,
-		center: centerPoint
-	};
-
-	// creates map and pushes directions to map
-	const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
-	directionsDisplay.setMap(map);
-
-	//*************************************************************
-
-	// click events on buttons 
-	$("#hybrid").on("click", function() {
-		hybridMileage = 45;
-		console.log(hybridMileage);
-	});
-
-	$("#sedan").on("click", function () {
-		sedanMileage = 25;
-		console.log(sedanMileage);
-	});
-
-	$("#truck").on("click", function() {
-		truckMileage = 15;
-		console.log(truckMileage);
-	});
 
 	//*********************************************
 	//			COMPUTE BUTTON CLICK 
@@ -84,6 +54,10 @@ $(document).ready(function() {
 		homeAdress = $("#homeAddress").val().trim();
 		workAddress = $("#workAddress").val().trim();		// $("moneySpentDisplay")
 
+		vehicleYear = $("#vehicleYear").val().trim();
+		vehicleMake = $("#vehicleMake").val().trim();
+		vehicleModel = $("#vehicleModel").val().trim();
+
 
 		console.log('start: ', homeAdress);
 		console.log('destination: ', workAddress);
@@ -93,34 +67,67 @@ $(document).ready(function() {
 
 		// Distance Matrix request object
 		let matrixRequest = {
-			origins: ['talking stick arena, phoenix, az'],//[homeAdress],
-			destinations:['125 e commonwealth, chandler, az'], //[]workAddress],
+			origins: ['125 e commonwealth ave, chandler, az'],//[homeAdress],
+			destinations: ['92 e vaughn ave, gilbert, az'], //[workAddress],
 			travelMode: 'DRIVING',
 			unitSystem: google.maps.UnitSystem.IMPERIAL
 		}
 
 		// Distance Matrix request call. Gives us travel time and distance
 		distanceService.getDistanceMatrix(matrixRequest, matrixCallBack);
+
+		// getCarDetails();
+		createMap();
 	});
 	//************************************************************************
-
-	// let queryURL = "https://api.edmunds.com/api/vehicle/v2/styles/200477465/equipment?availability=standard&equipmentType=OTHER&name=SPECIFICATIONS&fmt=json&api_key=z7eex5rta2zyqhdqgmqa6v5d";
-
-	$.ajax({
-		url: queryURL,
-		method: "GET"
-	})
-
-	.done(function(response) {
-
-		console.log(response);
-
-	});
 
 
 	//*******************************************
 	//				FUNCTIONS
 	//*******************************************
+
+	// Creates Map
+	function createMap() {
+
+		// Location where map will center its focus initially
+		const centerPoint = new google.maps.LatLng(33.4484, -112.0740);
+
+		// map options object
+		const mapOptions = {
+			zoom: 12,
+			center: centerPoint
+		};
+
+		// creates map and pushes directions to map
+		$("#mapHeader").html("Your Daily Commute");
+		const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
+		directionsDisplay.setMap(map);
+
+	}
+
+	// Uses Edmunds API to retrieve vehicle MPG data based on vehicle type
+	function getCarDetails() {
+
+		let queryURL = `https://api.edmunds.com/api/vehicle/v2/${vehicleMake}/${vehicleModel}/${vehicleYear}/styles?view=full&fmt=json&api_key=t5werjahd6rpgtxsxkcz6s5x`;
+		// "https://api.edmunds.com/api/vehicle/v2/" + vehicleMake + "/" + vehicleModel + "/" + vehicleYear + "/styles?state=used&category=4dr+SUV&view=full&fmt=json&api_key=t5werjahd6rpgtxsxkcz6s5x";
+
+		// Sends AJAX request to Edmunds API to retrieve MPG data
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+		.done(function(response) {
+
+			// Creates variable that holds MPG value
+			let mpgVal = response.styles[0].MPG.highway;
+
+			$("#mpgVal").append(mpgVal);
+
+			// Debugging
+			console.log(response);
+			console.log(response.styles[0].MPG.highway);
+		});
+	}
 
 	// Distance Matrix callback function
 	function matrixCallBack(result, status) {
@@ -231,8 +238,8 @@ $(document).ready(function() {
 	function calculateRoute() {
 
 		let request = {
-		origin: "talking stick arena, phoenix, az",
-		destination: "125 e commonwealth ave, chandler, az",
+		origin: '125 e commonwealth ave, chandler, az',
+		destination: '92 e vaughn ave, gilbert, az',
 		travelMode: 'DRIVING'
 		};
 
@@ -253,22 +260,22 @@ $(document).ready(function() {
 			timeFrame: 'Daily', 
 			commuteTime: `Time: ${dailyCommuteTime}`, 
 			commuteDistance: `Distance: ${dailyDistance} miles`, 
-			cost: `Cost: $${computeCost(dailyDistance, mpgAverage)}`
+			cost: `Cost: $${computeCost(dailyDistance, mpgVal)}`
 		}, {
 			timeFrame: 'Weekly',
 			commuteTime: `Time: ${weeklyCommuteTime}`,
 			commuteDistance: `Distance: ${weeklyDistance} miles`,
-			cost: `Cost: $${computeCost(weeklyDistance, mpgAverage)}`
+			cost: `Cost: $${computeCost(weeklyDistance, mpgVal)}`
 		}, {
 			timeFrame: 'Monthly',
 			commuteTime: `Time: ${monthlyCommuteTime}`,
 			commuteDistance: `Distance: ${monthlyDistance} miles`,
-			cost: `Cost: $${computeCost(monthlyDistance, mpgAverage)}`
+			cost: `Cost: $${computeCost(monthlyDistance, mpgVal)}`
 		}, {
 			timeFrame: 'Yearly',
 			commuteTime: `Time: ${yearlyCommuteTime}`,
 			commuteDistance: `Distance: ${yearlyDistance} miles`,
-			cost: `Cost: $${computeCost(yearlyDistance, mpgAverage)}`
+			cost: `Cost: $${computeCost(yearlyDistance, mpgVal)}`
 		}];
 
 		for (let i = 0; i < commute.length; i++) {
