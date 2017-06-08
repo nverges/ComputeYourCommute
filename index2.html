@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compute your Commute</title>
+
+  <!-- Materialize compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Link to CSS style sheet -->
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Compute your Commute</a>
+    </div>
+  </nav>
+        
+  <div class="container">
+
+    <div id="row">
+      <h5 id="instructions">Use this form to calculate the cost of your daily commute!</h5>
+    </div>
+
+
+    <!-- <div class="col s8"> -->
+    <div class="row">
+      <div class="input-field col s4">
+          <input id="homeAddress" type="text" class="validate">
+          <label for="homeAddress">Home Address</label>
+      </div>
+
+      <div class="input-field col s4">
+         <input id="workAddress" type="text" class="validate">
+         <label for="workAddress">Work Address</label>
+      </div>
+
+      <div class="input-field col s4">
+        <input id="vehicleType" type="text" class="validate">
+        <label for='vehicleType'>Vehicle Year, Make, and Model</label>
+      </div>
+    </div>
+
+<!-- 
+    <div class="row">
+
+    </div>
+ -->
+    <div class="averages center-align"></div>
+
+
+
+    <div class="row">
+      <div class="col s12" id="submitBtn">
+        <button class="btn waves-effect waves-light btn-large" type="submit" name="action" id="compute">Compute
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row" id="results"> </div>
+
+    <div id="mapHeader">
+    Your Daily Drive
+      <div id="mapDisplay"></div>
+    </div>
+  </div>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">
+      Cesar, Nick, and Jalil
+      <a class="grey-text text-lighten-4 right">UA Coding Bootcamp 2017</a>
+      </div>
+    </div>
+  </footer>
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Materialize compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <!-- Google maps Javascript API with Places library-->
+  <script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmkxML5e32lP-WBlO5KaQ3vAsIYppGCkI&libraries=places"></script>
+  <!-- Link to JS file -->
+  <script type="text/javascript" src="assets/javascript/script2.js"></script>
+  
+</body>
+</html>

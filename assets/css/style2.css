@@ -1,0 +1,80 @@
+#mapDisplay {
+  height: 300px;
+  width: 75%;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+#buttons {
+  text-align: center;
+}
+
+.waves-effect {
+  margin-left: 25px;
+}
+
+#inputAddress {
+  text-align: center;
+}
+
+#map {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/*button#compute {
+  margin: auto;
+}*/
+
+/*#compute {
+  text-align: center;
+}*/
+
+#submitBtn {
+  text-align: center;
+  margin-left: -25px;
+}
+
+#instructions {
+  text-align: center;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+table {
+  margin-bottom: 25px;
+}
+
+#mapHeader {
+  font-size: 24px;
+  text-align: center;
+}
+
+.averages {
+  margin-bottom: 35px;
+}
+
+#results {
+  display: inline-flex;
+  width: 100%;
+}
+
+.card {
+  margin-right: 10px;
+}
+
+.card-content {
+  width: 100%;
+  background-color: #EE6E73;
+  color: #f5f5f5;
+}
+
+#cardNum-1, #cardNum-2, #cardNum-3, #cardNum-4 {
+  padding: 0;
+}
+
+#vehicle {
+  text-align: center;
+}

@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 	// Display current average gas price
 	let gasPriceDisplay = $(`<h5 id="gasPrice">National Average Gas Price: $${gasPriceAvg}</h5>`);
-	let mpgDisplay = $(`<h5 id="mpgPrice">National Average MPG: ${mpgAverage}</h5>`)
+	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle gets: ${mpgAverage} MPG</h5>`)
 	$('.averages').append(gasPriceDisplay);
 	$('.averages').append(mpgDisplay);
 
@@ -104,7 +104,7 @@ $(document).ready(function() {
 	});
 	//************************************************************************
 
-	let queryURL = "https://api.edmunds.com/api/vehicle/v2/styles/200477465/equipment?availability=standard&equipmentType=OTHER&name=SPECIFICATIONS&fmt=json&api_key=z7eex5rta2zyqhdqgmqa6v5d";
+	// let queryURL = "https://api.edmunds.com/api/vehicle/v2/styles/200477465/equipment?availability=standard&equipmentType=OTHER&name=SPECIFICATIONS&fmt=json&api_key=z7eex5rta2zyqhdqgmqa6v5d";
 
 	$.ajax({
 		url: queryURL,
