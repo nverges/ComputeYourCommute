@@ -40,7 +40,7 @@ $(document).ready(function() {
 
 	// Display current average gas price
 	let gasPriceDisplay = $(`<h5 id="gasPrice">National Average Gas Price: $${gasPriceAvg}</h5>`);
-	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle gets: <span id="mpgVal">__ </span> MPG</h5>`)
+	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle's MPG: <span id="mpgVal"></span></h5>`)
 	$('.averages').append(gasPriceDisplay);
 	$('.averages').append(mpgDisplay);
 
@@ -107,6 +107,7 @@ $(document).ready(function() {
 		};
 
 		// creates map and pushes directions to map
+		$("#mapHeader").html("<h5>Your Daily Commute")
 		const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
 		directionsDisplay.setMap(map);
 	}
