@@ -1,6 +1,17 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
 #mapDisplay {
   height: 300px;
-  width: 75%;
+  width: 100%;
   margin: auto;
   margin-bottom: 40px;
 }
@@ -32,19 +43,15 @@
 
 #submitBtn {
   text-align: center;
-  margin-left: -25px;
+/*  margin-left: -25px;*/
+}
+
+.waves-effect {
+  margin-left: 0;
 }
 
 #instructions {
   text-align: center;
-}
-
-body {
-  background-color: #f5f5f5;
-}
-
-table {
-  margin-bottom: 25px;
 }
 
 #mapHeader {
@@ -52,18 +59,13 @@ table {
   text-align: center;
 }
 
-.averages {
-  margin-bottom: 35px;
-}
-
 #results {
-  display: inline-flex;
   width: 100%;
 }
 
-.card {
+/*.card {
   margin-right: 10px;
-}
+}*/
 
 .card-content {
   width: 100%;
@@ -75,15 +77,28 @@ table {
   padding: 0;
 }
 
+/*#cardNum-1, #cardNum-2, #cardNum-3 {
+  margin-right: 5px;*/
+}
 .brand-logo {
   margin-left: 24px;
 }
 
 #vehicleInputs {
-  display: inline-flex;
   width: 100%;
 }
 
+#year, #make, #model {
+  margin: 0 auto;
+}
+
+.container .row {
+  margin: 35px 0;
+}
+
+.mapRow .col {
+  padding: 0;
+}
 
 
 

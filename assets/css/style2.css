@@ -78,3 +78,7 @@ table {
 nav.brand-logo {
   margin-left: 24px;
 }
+
+.row .col.s2 {
+  margin: 0 auto;
+}

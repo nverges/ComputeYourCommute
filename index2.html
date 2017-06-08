@@ -18,73 +18,81 @@
 </head>
 
 <body>
-  
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Compute your Commute</a>
+  <header>
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Compute your Commute</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Main body Container -->
+    <div class="container">
+
+      <!-- Instructions -->
+      <div class="row">
+        <h5 id="instructions">Use this form to calculate the cost of your daily commute!</h5>
+      </div>
+
+      <!-- Home Address and Work Address input fields -->
+      <div class="row">
+        <div class="input-field col s12 m6 l6">
+            <input id="homeAddress" type="text" class="validate">
+            <label for="homeAddress">Home Address</label>
+        </div>
+
+        <div class="input-field col s12 m6 l6">
+           <input id="workAddress" type="text" class="validate">
+           <label for="workAddress">Work Address</label>
+        </div>
+      </div>
+
+      <!-- Vehicle Year, Make, and Model Input Fields -->
+      <div class="row" id="vehicleInputs">
+        <div class="input-field col s12 m4 l4" id="year">
+          <input id="vehicleYear" type="text" class="validate">
+          <label for='vehicleYear'>Vehicle Year</label>
+        </div>
+        <div class="input-field col s12 m4 l4" id="make">
+          <input id="vehicleMake" type="text" class="validate">
+          <label for='vehicleMake'>Vehicle Make</label>
+        </div>
+        <div class="input-field col s12 m4 l4" id="model">
+          <input id="vehicleModel" type="text" class="validate">
+          <label for='vehicleModel'>Vehicle Model</label>
+        </div>
+      </div>
+
+      <!-- Average Gas Price and Vehicle MPG display here -->
+      <div class=" row center-align">
+        <div class=" averages col s12"></div>
+      </div>
+
+      <!-- Compute button -->
+      <div class="row">
+        <div class="col s12" id="submitBtn">
+          <button class="btn z-depth-4 waves-effect waves-light btn-large" type="submit" name="action" id="compute">Compute
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Daily, Weekly, Monthly, Yearly cards display here -->
+      <div class="row" id="results"> </div>
+      
+      <!-- Displays Map Title and Map -->
+      <div class="row mapRow">
+        <div class="col s12">
+          <div id="mapHeader"></div>
+          <div id="mapDisplay"></div>
+        </div>
+      </div>
+      
+    <!-- End Main Body Container -->
     </div>
-  </nav>
-        
-  <!-- Main body Container -->
-  <div class="container">
-
-    <!-- Instructions -->
-    <div id="row">
-      <h5 id="instructions">Use this form to calculate the cost of your daily commute!</h5>
-    </div>
-
-    <!-- Home Address and Work Address input fields -->
-    <div class="row">
-      <div class="input-field col s6">
-          <input id="homeAddress" type="text" class="validate">
-          <label for="homeAddress">Home Address</label>
-      </div>
-
-      <div class="input-field col s6">
-         <input id="workAddress" type="text" class="validate">
-         <label for="workAddress">Work Address</label>
-      </div>
-    </div>
-
-    <!-- Vehicle Year, Make, and Model Input Fields -->
-    <div class="row" id="vehicleInputs">
-      <div class="input-field col s2">
-        <input id="vehicleYear" type="text" class="validate">
-        <label for='vehicleYear'>Vehicle Year</label>
-      </div>
-      <div class="input-field col s2">
-        <input id="vehicleMake" type="text" class="validate">
-        <label for='vehicleMake'>Vehicle Make</label>
-      </div>
-      <div class="input-field col s2">
-        <input id="vehicleModel" type="text" class="validate">
-        <label for='vehicleModel'>Vehicle Model</label>
-      </div>
-    </div>
-
-    <!-- Average Gas Price and Vehicle MPG display here -->
-    <div class="averages center-align"></div>
-
-    <!-- Compute button -->
-    <div class="row">
-      <div class="col s12" id="submitBtn">
-        <button class="btn waves-effect waves-light btn-large" type="submit" name="action" id="compute">Compute
-          <i class="material-icons right">send</i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Daily, Weekly, Monthly, Yearly cards display here -->
-    <div class="row" id="results"> </div>
-
-    <!-- Displays Map Title and Map -->
-    <div id="mapHeader"></div>
-    <div id="mapDisplay"></div>
-    
-
-  <!-- End Main Body Container -->
-  </div>
+  </main> 
 
   <footer class="page-footer">
     <div class="footer-copyright">
