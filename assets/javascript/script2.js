@@ -44,7 +44,7 @@ $(document).ready(function() {
 	$('.averages').append(mpgDisplay);
 
 	//************************************************************************
-	
+
 
 	//*********************************************
 	//			COMPUTE BUTTON CLICK 
@@ -118,7 +118,8 @@ $(document).ready(function() {
 	// Uses Edmunds API to retrieve vehicle MPG data based on vehicle type
 	function getCarDetails() {
 
-		let queryURL = `https://api.edmunds.com/api/vehicle/v2/${vehicleMake}/${vehicleModel}/${vehicleYear}/styles?view=full&fmt=json&api_key=t5werjahd6rpgtxsxkcz6s5x`;
+		let apiKey = "dmvg55zmrywxx685fjba3t6c";
+		let queryURL = `https://api.edmunds.com/api/vehicle/v2/${vehicleMake}/${vehicleModel}/${vehicleYear}/styles?view=full&fmt=json&api_key=${apiKey}`;
 		// "https://api.edmunds.com/api/vehicle/v2/" + vehicleMake + "/" + vehicleModel + "/" + vehicleYear + "/styles?state=used&category=4dr+SUV&view=full&fmt=json&api_key=t5werjahd6rpgtxsxkcz6s5x";
 
 		// Sends AJAX request to Edmunds API to retrieve MPG data
@@ -167,7 +168,6 @@ $(document).ready(function() {
 			alert('Matrix request unsuccessful: ' + status);
 		}
 	}
-
 
 	// Takes in number of miles and miles per gallon as arguments to 
 	// calculate the total cost of a commute
