@@ -1,22 +1,25 @@
 $(document).ready(function() {
 
+	//*******************************************
+	//				VARIABLES
+	//*******************************************
+
 	// Access Google Distance Matrix service
 	const distanceService = new google.maps.DistanceMatrixService();
 
-	// create variables for calls to services
+	// Create variables for calls to services
 	const directionsService = new google.maps.DirectionsService();
 	const directionsDisplay = new google.maps.DirectionsRenderer();
 
-	let hybridMileage;
-	let sedanMileage;
-	let truckMileage;
-
+	// Address variables
 	let homeAdress;
 	let workAddress;
 
+	// Travel info variables
 	let travelDistance;
 	let travelTime;
 
+	// Card Info variables
 	let dailyCommuteTime;
 	let weeklyCommuteTime;
 	let monthlyCommuteTime;
@@ -26,6 +29,7 @@ $(document).ready(function() {
 	let monthlyDistance;
 	let yearlyDistance;
 
+	// Vehicle Info variables
 	let vehicleYear;
 	let vehicleMake;
 	let vehicleModel;
@@ -39,6 +43,8 @@ $(document).ready(function() {
 	$('.averages').append(gasPriceDisplay);
 	$('.averages').append(mpgDisplay);
 
+	//************************************************************************
+	
 
 	//*********************************************
 	//			COMPUTE BUTTON CLICK 
@@ -47,9 +53,9 @@ $(document).ready(function() {
 	$("#compute").on("click", function(event) {
 		event.preventDefault();
 
-		// $("#gasPriceDisplay")
-		// $("gallonsConsumedDisplay")
-		// $("distanceTraveledDisplay")
+		// Limits cards on page to 4 at a time
+		$("#results").empty();
+
 		// pull locations from text input in DOM
 		homeAdress = $("#homeAddress").val().trim();
 		workAddress = $("#workAddress").val().trim();		// $("moneySpentDisplay")
@@ -58,7 +64,7 @@ $(document).ready(function() {
 		vehicleMake = $("#vehicleMake").val().trim();
 		vehicleModel = $("#vehicleModel").val().trim();
 
-
+		// Console logs addresses
 		console.log('start: ', homeAdress);
 		console.log('destination: ', workAddress);
 
@@ -76,9 +82,13 @@ $(document).ready(function() {
 		// Distance Matrix request call. Gives us travel time and distance
 		distanceService.getDistanceMatrix(matrixRequest, matrixCallBack);
 
-		// getCarDetails();
+		// Calls Edmunds API for MPG info
+		getCarDetails();
+
+		// Appends Map to DOM
 		createMap();
 	});
+
 	//************************************************************************
 
 
@@ -92,13 +102,13 @@ $(document).ready(function() {
 		// Location where map will center its focus initially
 		const centerPoint = new google.maps.LatLng(33.4484, -112.0740);
 
-		// map options object
+		// Map options object
 		const mapOptions = {
 			zoom: 12,
 			center: centerPoint
 		};
 
-		// creates map and pushes directions to map
+		// Pushes directions to map
 		$("#mapHeader").html("Your Daily Commute");
 		const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
 		directionsDisplay.setMap(map);
@@ -243,11 +253,14 @@ $(document).ready(function() {
 		travelMode: 'DRIVING'
 		};
 
+		// Creates call to directionsService
 		directionsService.route(request, function(result, status) {
 
-		console.log(result, status);
-
+		// Sets directions on Map
 		directionsDisplay.setDirections(result);
+
+		// Console log
+		console.log(result, status);
 
 		});
 	}
@@ -278,6 +291,7 @@ $(document).ready(function() {
 			cost: `Cost: $${computeCost(yearlyDistance, mpgVal)}`
 		}];
 
+		// Loops through commute object to create and append cards
 		for (let i = 0; i < commute.length; i++) {
 			let commuteObj = commute[i];
 			let cardDiv = $('<div class="card hoverable center-align col s3">');
