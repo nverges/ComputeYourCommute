@@ -74,3 +74,18 @@ table {
 #cardNum-1, #cardNum-2, #cardNum-3, #cardNum-4 {
   padding: 0;
 }
+
+.brand-logo {
+  margin-left: 24px;
+}
+
+#vehicleInputs {
+  display: inline-flex;
+  width: 100%;
+}
+
+
+
+
+
+
