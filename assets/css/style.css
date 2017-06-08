@@ -84,8 +84,11 @@ table {
   width: 100%;
 }
 
+/*.row .col.s3 {
+  margin: 0 auto;
+}*/
 
-
-
-
+#year, #make, #model {
+  margin: 0 auto;
+}
 
