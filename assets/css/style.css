@@ -7,6 +7,7 @@ html {
 
 body {
   background-color: #f5f5f5;
+  font-weight: 200;
 }
 
 #mapDisplay {
@@ -40,11 +41,6 @@ body {
 /*#compute {
   text-align: center;
 }*/
-
-#submitBtn {
-  text-align: center;
-/*  margin-left: -25px;*/
-}
 
 .waves-effect {
   margin-left: 0;
@@ -131,5 +127,8 @@ body {
   bottom: 30%;
 }
 
+#navWrapper {
+  font-weight: 200;
+}
 
 
