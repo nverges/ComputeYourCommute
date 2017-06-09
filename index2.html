@@ -21,58 +21,74 @@
   <header>
     <!-- Navigation Bar -->
     <nav>
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Compute your Commute</a>
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo">Compute your Commute</a>
+        </div>
       </div>
+      
     </nav>
   </header>
 
   <main>
     <!-- Main body Container -->
+    
+    <!-- Parallax -->
+    <div class="parallax-container">
+      <div class="parallax">
+        <img id="top-img" src="assets/images/City-Road-HD-Wallpapers-4.jpg">
+      </div>
+      <h5 id="instructions">Use this form to calculate the <br>cost of your daily commute!</h5>
+    </div>
+
     <div class="container">
 
       <!-- Instructions -->
-      <div class="row">
+      <!-- <div class="row">
         <h5 id="instructions">Use this form to calculate the cost of your daily commute!</h5>
+      </div> -->
+      
+      <!-- Form section with input fields -->
+      <div class="section">
+        <!-- Home Address and Work Address input fields -->
+        <div class="row">
+          <div class="input-field col s12 m6 l6">
+              <input id="homeAddress" type="text" class="validate">
+              <label for="homeAddress">Home Address</label>
+          </div>
+
+          <div class="input-field col s12 m6 l6">
+             <input id="workAddress" type="text" class="validate">
+             <label for="workAddress">Work Address</label>
+          </div>
+        </div>
+
+        <!-- Vehicle Year, Make, and Model Input Fields -->
+        <div class="row" id="vehicleInputs">
+          <div class="input-field col s12 m4 l4" id="year">
+            <input id="vehicleYear" type="text" class="validate">
+            <label for='vehicleYear'>Vehicle Year</label>
+          </div>
+          <div class="input-field col s12 m4 l4" id="make">
+            <input id="vehicleMake" type="text" class="validate">
+            <label for='vehicleMake'>Vehicle Make</label>
+          </div>
+          <div class="input-field col s12 m4 l4" id="model">
+            <input id="vehicleModel" type="text" class="validate">
+            <label for='vehicleModel'>Vehicle Model</label>
+          </div>
+        </div>
+
+        <!-- Compute button -->
+        <div class="row">
+          <div class="col s12" id="submitBtn">
+            <button class="btn z-depth-4 waves-effect waves-light btn-large" type="submit" name="action" id="compute">Compute
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <!-- Home Address and Work Address input fields -->
-      <div class="row">
-        <div class="input-field col s12 m6 l6">
-            <input id="homeAddress" type="text" class="validate">
-            <label for="homeAddress">Home Address</label>
-        </div>
-
-        <div class="input-field col s12 m6 l6">
-           <input id="workAddress" type="text" class="validate">
-           <label for="workAddress">Work Address</label>
-        </div>
-      </div>
-
-      <!-- Vehicle Year, Make, and Model Input Fields -->
-      <div class="row" id="vehicleInputs">
-        <div class="input-field col s12 m4 l4" id="year">
-          <input id="vehicleYear" type="text" class="validate">
-          <label for='vehicleYear'>Vehicle Year</label>
-        </div>
-        <div class="input-field col s12 m4 l4" id="make">
-          <input id="vehicleMake" type="text" class="validate">
-          <label for='vehicleMake'>Vehicle Make</label>
-        </div>
-        <div class="input-field col s12 m4 l4" id="model">
-          <input id="vehicleModel" type="text" class="validate">
-          <label for='vehicleModel'>Vehicle Model</label>
-        </div>
-      </div>
-
-      <!-- Compute button -->
-      <div class="row">
-        <div class="col s12" id="submitBtn">
-          <button class="btn z-depth-4 waves-effect waves-light btn-large" type="submit" name="action" id="compute">Compute
-            <i class="material-icons right">send</i>
-          </button>
-        </div>
-      </div>
 
       <!-- Average Gas Price and Vehicle MPG display here -->
       <div class=" row center-align">

@@ -52,6 +52,12 @@ body {
 
 #instructions {
   text-align: center;
+  width: 100%;
+  color: #fafafa;
+  margin-left: 250px;
+  bottom: 100px;
+  position: absolute;
+  font-weight: 200;
 }
 
 #mapHeader {
@@ -120,5 +126,10 @@ body {
 #year, #make, #model {
   margin: 0 auto;
 }
+
+#top-img {
+  bottom: 30%;
+}
+
 
 

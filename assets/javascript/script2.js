@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+	//parallax 
+	$('.parallax').parallax();
+
 	//*******************************************
 	//		      GLOBAL VARIABLES
 	//*******************************************
