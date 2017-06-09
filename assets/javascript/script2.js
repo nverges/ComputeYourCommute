@@ -4,7 +4,7 @@ $(document).ready(function() {
 	$('.averages').hide();
 
 	//*******************************************
-	//				VARIABLES
+	//		      GLOBAL VARIABLES
 	//*******************************************
 
 	// Access Google Distance Matrix service
@@ -37,17 +37,25 @@ $(document).ready(function() {
 	let vehicleMake;
 	let vehicleModel;
 
+<<<<<<< HEAD
 	let mpgVal = 24.8; // Average MPG as of November 2016
+=======
+	// Gas Price and MPG info
+	let mpgVal = 24.3; //  
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 	const gasPriceAvg = 2.36; // National average gas price as of 6/7/16 according to http://gasprices.aaa.com/
 
 	// Display current average gas price
 	let gasPriceDisplay = $(`<h5 id="gasPrice">National Average Gas Price: $${gasPriceAvg}</h5>`);
+<<<<<<< HEAD
 	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle's MPG: <span id="mpgVal"> ${mpgVal}</span></h5>`)
+=======
+	let mpgDisplay = $(`<h5 id="mpgPrice">Your Vehicle's MPG: <span id="mpgVal"></span></h5>`)
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 	$('.averages').append(gasPriceDisplay);
 	$('.averages').append(mpgDisplay);
 
-	//************************************************************************
-
+//************************************************************************
 
 	//*********************************************
 	//			COMPUTE BUTTON CLICK 
@@ -56,16 +64,21 @@ $(document).ready(function() {
 	$("#compute").on("click", function(event) {
 		event.preventDefault();
 
+		// Initializes Map
+		createMap();
+
 		// Limits cards on page to 4 at a time
 		$("#results").empty();
+		// Refreshes MPG display value
+		$("#mpgVal").empty();
 
 		// pull locations from text input in DOM
 		homeAddress = $("#homeAddress").val().trim();
+<<<<<<< HEAD
 		workAddress = $("#workAddress").val().trim();	
-
-		vehicleYear = $("#vehicleYear").val().trim();
-		vehicleMake = $("#vehicleMake").val().trim();
-		vehicleModel = $("#vehicleModel").val().trim();
+=======
+		workAddress = $("#workAddress").val().trim();		// $("moneySpentDisplay")
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 
 		// Console logs addresses
 		console.log('start: ', homeAddress);
@@ -78,7 +91,11 @@ $(document).ready(function() {
 
 		// Distance Matrix request object
 		let matrixRequest = {
+<<<<<<< HEAD
 			origins: [homeAddress],//[homeAddress],
+=======
+			origins: [homeAddress],//[homeAdress],
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 			destinations: [workAddress], //[workAddress],
 			travelMode: 'DRIVING',
 			unitSystem: google.maps.UnitSystem.IMPERIAL
@@ -90,29 +107,27 @@ $(document).ready(function() {
 		// Calls Edmunds API for MPG info
 		// getCarDetails();
 
-		// Appends Map to DOM
-		createMap();
 	});
 
-	//************************************************************************
-
+//************************************************************************
 
 	//*******************************************
 	//				FUNCTIONS
 	//*******************************************
 
-	// Creates Map
+	// Initializes Map 
 	function createMap() {
-
+		
 		// Location where map will center its focus initially
 		const centerPoint = new google.maps.LatLng(33.4484, -112.0740);
 
-		// Map options object
+		// map options object
 		const mapOptions = {
 			zoom: 12,
 			center: centerPoint
 		};
 
+<<<<<<< HEAD
 		// Pushes directions to map
 		$("#mapHeader").html("<h5>Your Daily Commute");
 		const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
@@ -121,32 +136,57 @@ $(document).ready(function() {
 		// Add shadow depth and hover affect to map 
 		$('#mapDisplay').attr('class', 'z-depth-4');
 
+=======
+		// creates map and pushes directions to map
+		$("#mapHeader").html("<h5>Your Daily Commute")
+		const map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
+		directionsDisplay.setMap(map);
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 	}
+
 
 	// Uses Edmunds API to retrieve vehicle MPG data based on vehicle type
 	function getCarDetails() {
 
+		// Grabs values from input fields
+		vehicleYear = $("#vehicleYear").val().trim();
+		vehicleMake = $("#vehicleMake").val().trim();
+		vehicleModel = $("#vehicleModel").val().trim();
+
+		// URL info
 		let apiKey = "dmvg55zmrywxx685fjba3t6c";
+<<<<<<< HEAD
 		const queryURL = `https://api.edmunds.com/api/vehicle/v2/${vehicleMake}/${vehicleModel}/${vehicleYear}/styles?view=full&fmt=json&api_key=${apiKey}`;
 		// "https://api.edmunds.com/api/vehicle/v2/" + vehicleMake + "/" + vehicleModel + "/" + vehicleYear + "/styles?state=used&category=4dr+SUV&view=full&fmt=json&api_key=t5werjahd6rpgtxsxkcz6s5x";
+=======
+		let queryURL = `https://api.edmunds.com/api/vehicle/v2/${vehicleMake}/${vehicleModel}/${vehicleYear}/styles?view=full&fmt=json&api_key=${apiKey}`;
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 
 		// Sends AJAX request to Edmunds API to retrieve MPG data
 		$.ajax({
 			url: queryURL,
 			method: "GET"
-		})
-		.done(function(response) {
+		}).done(function(response) {
 
+<<<<<<< HEAD
 			// variable that holds MPG value
 			mpgVal = response.styles[0].MPG.highway;
 
 			$("#mpgVal").text(mpgVal);
+=======
+			// Creates variable that holds MPG value pulled from JSON
+			mpgVal = response.styles[0].MPG.highway;
 
-			// Debugging
+			// Displays MPG value 
+			$("#mpgVal").append(mpgVal);
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
+
+			// console.logs
 			console.log(response);
 			console.log(response.styles[0].MPG.highway);
 		});
 	}
+
 
 	// Distance Matrix callback function
 	function matrixCallBack(result, status) {
@@ -176,6 +216,7 @@ $(document).ready(function() {
 			alert('Matrix request unsuccessful: ' + status);
 		}
 	}
+
 
 	// Takes in number of miles and miles per gallon as arguments to 
 	// calculate the total cost of a commute
@@ -272,6 +313,7 @@ $(document).ready(function() {
 
 		});
 	}
+
 
 	// Displays seperate cards for each time frame with corresponding commute info
 	function cardDisplay() {

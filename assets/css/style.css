@@ -97,6 +97,7 @@ body {
   padding: 0;
 }
 
+<<<<<<< HEAD
 .brand-logo {
   margin-left: 24px;
 }
@@ -119,4 +120,13 @@ body {
 }*/
 
 
+=======
+/*.row .col.s3 {
+  margin: 0 auto;
+}*/
+
+#year, #make, #model {
+  margin: 0 auto;
+}
+>>>>>>> 834777c52a0a118d11ac33ba74bc527a77a10ddf
 

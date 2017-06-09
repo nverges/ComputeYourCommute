@@ -54,38 +54,23 @@ $(document).ready(function() {
 
 	//*************************************************************
 
-	// click events on buttons 
-	$("#hybrid").on("click", function() {
-		hybridMileage = 45;
-		console.log(hybridMileage);
-	});
-
-	$("#sedan").on("click", function () {
-		sedanMileage = 25;
-		console.log(sedanMileage);
-	});
-
-	$("#truck").on("click", function() {
-		truckMileage = 15;
-		console.log(truckMileage);
-	});
-
 	//*********************************************
 	//			COMPUTE BUTTON CLICK 
 	//*********************************************
 
 	$("#compute").on("click", function(event) {
+
+		// Empties results div
+		$("#results").empty();
+
 		event.preventDefault();
 
-		// $("#gasPriceDisplay")
-		// $("gallonsConsumedDisplay")
-		// $("distanceTraveledDisplay")
 		// pull locations from text input in DOM
-		homeAdress = $("#homeAddress").val().trim();
+		homeAddress = $("#homeAddress").val().trim();
 		workAddress = $("#workAddress").val().trim();		// $("moneySpentDisplay")
 
 
-		console.log('start: ', homeAdress);
+		console.log('start: ', homeAddress);
 		console.log('destination: ', workAddress);
 
 		// Get directions from home to work and display
@@ -93,34 +78,66 @@ $(document).ready(function() {
 
 		// Distance Matrix request object
 		let matrixRequest = {
-			origins: ['talking stick arena, phoenix, az'],//[homeAdress],
-			destinations:['125 e commonwealth, chandler, az'], //[]workAddress],
+			origins: [homeAddress], //['talking stick arena, phoenix, az'],[homeAdress],
+			destinations: [workAddress], //['125 e commonwealth, chandler, az'], //[]workAddress],
 			travelMode: 'DRIVING',
 			unitSystem: google.maps.UnitSystem.IMPERIAL
 		}
 
 		// Distance Matrix request call. Gives us travel time and distance
 		distanceService.getDistanceMatrix(matrixRequest, matrixCallBack);
+
+		getCarDetails();
 	});
 	//************************************************************************
 
-	let queryURL = "https://api.edmunds.com/api/vehicle/v2/styles/200477465/equipment?availability=standard&equipmentType=OTHER&name=SPECIFICATIONS&fmt=json&api_key=z7eex5rta2zyqhdqgmqa6v5d";
+	// let queryURL = "https://api.edmunds.com/api/vehicle/v2/styles/200477465/equipment?availability=standard&equipmentType=OTHER&name=SPECIFICATIONS&fmt=json&api_key=z7eex5rta2zyqhdqgmqa6v5d";
 
-	$.ajax({
-		url: queryURL,
-		method: "GET"
-	})
+	// $.ajax({
+	// 	url: queryURL,
+	// 	method: "GET"
+	// })
 
-	.done(function(response) {
+	// .done(function(response) {
 
-		console.log(response);
+	// 	console.log(response);
 
-	});
+	// });
 
 
 	//*******************************************
 	//				FUNCTIONS
 	//*******************************************
+
+	// Uses Edmunds API to retrieve vehicle MPG data based on vehicle type
+	function getCarDetails() {
+
+		vehicleYear = $("#vehicleYear").val().trim();
+		vehicleMake = $("#vehicleMake").val().trim();
+		vehicleModel = $("#vehicleModel").val().trim();
+
+		let apiKey = "dmvg55zmrywxx685fjba3t6c";
+		let queryURL = `https://api.edmunds.com/api/vehicle/v2/${vehicleMake}/${vehicleModel}/${vehicleYear}/styles?view=full&fmt=json&api_key=${apiKey}`;
+		// "https://api.edmunds.com/api/vehicle/v2/" + vehicleMake + "/" + vehicleModel + "/" + vehicleYear + "/styles?state=used&category=4dr+SUV&view=full&fmt=json&api_key=t5werjahd6rpgtxsxkcz6s5x";
+
+		// Sends AJAX request to Edmunds API to retrieve MPG data
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+		.done(function(response) {
+
+			// Creates variable that holds MPG value
+			mpgVal = response.styles[0].MPG.highway;
+
+			$("#mpgVal").append(mpgVal);
+
+			// Debugging
+			console.log(response);
+			console.log(response.styles[0].MPG.highway);
+		});
+	}
+
 
 	// Distance Matrix callback function
 	function matrixCallBack(result, status) {
@@ -231,8 +248,8 @@ $(document).ready(function() {
 	function calculateRoute() {
 
 		let request = {
-		origin: "talking stick arena, phoenix, az",
-		destination: "125 e commonwealth ave, chandler, az",
+		origin: homeAddress,
+		destination: workAddress,
 		travelMode: 'DRIVING'
 		};
 
