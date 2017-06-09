@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+	// Hide average div 
+	$('.averages').hide();
+
 	//*******************************************
 	//				VARIABLES
 	//*******************************************
@@ -67,6 +70,8 @@ $(document).ready(function() {
 		// Console logs addresses
 		console.log('start: ', homeAddress);
 		console.log('destination: ', workAddress);
+
+		$('.averages').show();
 
 		// Get directions from home to work and display
 		calculateRoute();
